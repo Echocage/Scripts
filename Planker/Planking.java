@@ -96,7 +96,6 @@ public class Planking extends ActiveScript implements PaintListener {
 
 		seconds = millis / 1000;
 		Graphics2D g = (Graphics2D) g1;
-		
 
 		g.setColor(color1);
 		g.fillRect(341, 194 + 51, 176, 143);
