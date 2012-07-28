@@ -375,7 +375,6 @@ public class Planking extends ActiveScript {
 						Timer timer = new Timer(3000);
 						while (!Bank.isOpen() && timer.isRunning()) {
 							Time.sleep(100);
-
 						}
 					} else {
 						Camera.turnTo(josh);
