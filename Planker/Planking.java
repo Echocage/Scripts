@@ -142,7 +142,7 @@ public class Planking extends ActiveScript implements PaintListener {
 		g.drawString("Planks Per Hour:", 361, 273 + 51);
 		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
 		String profit = String.valueOf(bob7);
-		g.drawString("Profit per hour: "+profit, 361, 300 + 51);
+		g.drawString("Profit per hour: " + profit, 361, 300 + 51);
 		if (numOfPlanks >= 20) {
 			bob3 = (int) (numOfPlanks * 3600000D / bob);
 		}
