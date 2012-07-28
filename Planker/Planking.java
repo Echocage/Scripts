@@ -28,7 +28,7 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
 public class Planking extends ActiveScript implements PaintListener {
-	int bob3 = 0;
+	double bob3 = 0;
 	Timer ptime = new Timer(0);
 	AntibanTask anti = new AntibanTask();
 	Random rand = new Random();
@@ -88,10 +88,8 @@ public class Planking extends ActiveScript implements PaintListener {
 		String s = String.valueOf(bob2);
 		g.drawString(s, 400, 218 + 51);
 		g.drawString("Planks Per Hour:", 361, 273 + 51);
-		if (bob2 != 0) {
-			bob3 = 60 / bob2*60 * numOfPlanks;
-		} else {
-			bob3 = 0;
+		if (numOfPlanks >= 20) {
+			bob3 = numOfPlanks / bob * 1000 / 60 / 60;
 		}
 		String u = String.valueOf(bob3);
 		g.drawString(u, 444 + 15, 273 + 51);
@@ -275,6 +273,7 @@ public class Planking extends ActiveScript implements PaintListener {
 				break;
 
 			}
+			numOfPlanks = numOfPlanks + 28;
 
 			Time.sleep(500 + rand.nextInt(1000));
 		}
@@ -434,7 +433,7 @@ public class Planking extends ActiveScript implements PaintListener {
 					if (Bank.getItem(logID) != null
 							&& Bank.getItem(logID).getStackSize() >= 28) {
 						Bank.withdraw(logID, 28);
-						numOfPlanks = numOfPlanks + 28;
+
 						Bank.close();
 					} else {
 						Time.sleep(1000000);
