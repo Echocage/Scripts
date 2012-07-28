@@ -24,9 +24,10 @@ import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
 import org.powerbot.game.api.wrappers.node.Item;
 import org.powerbot.game.api.wrappers.node.SceneObject;
+import org.powerbot.game.bot.event.listener.PaintListener;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
-public class Planking extends ActiveScript {
+public class Planking extends ActiveScript implements PaintListener {
 	Timer ptime = new Timer(0);
 	AntibanTask anti = new AntibanTask();
 	Random rand = new Random();
