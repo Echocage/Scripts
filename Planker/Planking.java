@@ -1,6 +1,11 @@
 package Planker;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Random;
 
 import org.powerbot.concurrent.Task;
@@ -29,7 +34,7 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
 public class Planking extends ActiveScript implements PaintListener {
 	int bob3 = 0;
-
+	int happy = 0;
 	public long startTime = 0;
 
 	public long millis = 0;
@@ -52,12 +57,36 @@ public class Planking extends ActiveScript implements PaintListener {
 	int restValue = 40;
 	// End of what you can change **********************************
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
-	Tile cBank = aBank.getCentralTile();
+	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
 	// 517,387
 	int musicianID = 8700;
 
 	Tile varockCenter = new Tile(3213, 3432, 0);
+
+	public int getPrice(int id) throws IOException {
+		String price;
+		URL url = new URL(
+				"http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj="
+						+ id);
+		URLConnection con = url.openConnection();
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				con.getInputStream()));
+		String line;
+		while ((line = in.readLine()) != null) {
+			if (line.contains("<td>")) {
+				price = line.substring(line.indexOf(">") + 1,
+						line.indexOf("/") - 1);
+				price = price.replace(",", "");
+				try {
+					return Integer.parseInt(price);
+				} catch (NumberFormatException e) {
+					return 0;
+				}
+			}
+		}
+		return -1;
+	}
 
 	public NPC getNpc(String a) {
 		if (a.contains("banker")) {
@@ -108,10 +137,12 @@ public class Planking extends ActiveScript implements PaintListener {
 		String m = String.valueOf(numOfPlanks);
 		g.drawString(m, 444, 244 + 51);
 		int bob = (int) ptime.getElapsed();
-		int bob2 = bob / 1000;
-		g.drawString(hours + ":" + minutes + ":" + seconds, 400, 218 + 51);
 
+		g.drawString(hours + ":" + minutes + ":" + seconds, 400, 218 + 51);
 		g.drawString("Planks Per Hour:", 361, 273 + 51);
+		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
+		String profit = String.valueOf(bob7);
+		g.drawString("Profit per hour: "+profit, 361, 300 + 51);
 		if (numOfPlanks >= 20) {
 			bob3 = (int) (numOfPlanks * 3600000D / bob);
 		}
@@ -185,6 +216,18 @@ public class Planking extends ActiveScript implements PaintListener {
 		return x;
 	}
 
+	public int greg(int a) {
+		int honey = 0;
+		try {
+			honey = getPrice(a);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		return honey;
+	}
+
 	public void music() {
 		NPC musician = NPCs.getNearest(musicianID);
 
@@ -219,6 +262,7 @@ public class Planking extends ActiveScript implements PaintListener {
 	}
 
 	public int inventoryCheck() {
+
 		Item[] bob = Inventory.getItems();
 		Time.sleep(100 + rand.nextInt(300));
 
@@ -312,6 +356,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	@Override
 	protected void setup() {
+		happy = greg(plankID) - greg(logID) - 250;
 		startTime = System.currentTimeMillis();
 		final Log log = new Log();
 		final Strategy logAction = new Strategy(log, log);
