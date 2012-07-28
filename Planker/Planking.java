@@ -1,4 +1,5 @@
-import java.awt.Graphics;
+package Planker;
+
 import java.util.Random;
 
 import org.powerbot.concurrent.Task;
@@ -6,7 +7,6 @@ import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.concurrent.strategy.Strategy;
 import org.powerbot.game.api.ActiveScript;
 import org.powerbot.game.api.Manifest;
-import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.NPCs;
