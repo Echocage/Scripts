@@ -28,9 +28,11 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
 public class Planking extends ActiveScript implements PaintListener {
+	int bob3 = 0;
 	Timer ptime = new Timer(0);
 	AntibanTask anti = new AntibanTask();
 	Random rand = new Random();
+	int numOfPlanks = 0;
 	// What you can change!! ***************************************
 	int plankSwitch = 2;// 1 = logs 2= oak logs 3=teak logs 4=mahogany
 	int plankID = 8778;
@@ -40,7 +42,7 @@ public class Planking extends ActiveScript implements PaintListener {
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = aBank.getCentralTile();
 	String status = "";
-
+	// 517,387
 	int musicianID = 8700;
 
 	Tile varockCenter = new Tile(3213, 3432, 0);
@@ -68,20 +70,32 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	private final Font font1 = new Font("Arial", 0, 12);
 
+	// 389-338 51
 	public void onRepaint(Graphics g1) {
 		Graphics2D g = (Graphics2D) g1;
 		g.setColor(color1);
-		g.fillRect(341, 194, 176, 143);
+		g.fillRect(341, 194 + 51, 176, 143);
 		g.setStroke(stroke1);
-		g.drawRect(341, 194, 176, 143);
+		g.drawRect(341, 194 + 51, 176, 143);
 		g.setFont(font1);
 		g.setColor(color2);
-		g.drawString("Time:", 360, 218);
-		g.drawString("Planks made:", 361, 244);
-		g.drawString("#of planks made", 444, 244);
-		g.drawString(ptime.toString(), 400, 218);
-		g.drawString("Profit:", 361, 273);
-		g.drawString("Profit per hour:", 361, 301);
+		g.drawString("Time:", 360, 218 + 51);
+		g.drawString("Planks made:", 361, 244 + 51);
+		String m = String.valueOf(numOfPlanks);
+		g.drawString(m, 444, 244 + 51);
+		int bob = (int) ptime.getElapsed();
+		int bob2 = bob / 1000;
+		String s = String.valueOf(bob2);
+		g.drawString(s, 400, 218 + 51);
+		g.drawString("Planks Per Hour:", 361, 273 + 51);
+		if (bob2 != 0) {
+			bob3 = 60 / bob2*60 * numOfPlanks;
+		} else {
+			bob3 = 0;
+		}
+		String u = String.valueOf(bob3);
+		g.drawString(u, 444 + 15, 273 + 51);
+
 	}
 
 	// END: Code generated using Enfilade's Easel
@@ -420,6 +434,7 @@ public class Planking extends ActiveScript implements PaintListener {
 					if (Bank.getItem(logID) != null
 							&& Bank.getItem(logID).getStackSize() >= 28) {
 						Bank.withdraw(logID, 28);
+						numOfPlanks = numOfPlanks + 28;
 						Bank.close();
 					} else {
 						Time.sleep(1000000);
