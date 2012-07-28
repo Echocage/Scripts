@@ -28,7 +28,19 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
 public class Planking extends ActiveScript implements PaintListener {
-	double bob3 = 0;
+	int bob3 = 0;
+
+	public long startTime = 0;
+
+	public long millis = 0;
+
+	public long hours = 0;
+
+	public long minutes = 0;
+
+	public long seconds = 0;
+
+	public long last = 0;
 	Timer ptime = new Timer(0);
 	AntibanTask anti = new AntibanTask();
 	Random rand = new Random();
@@ -72,7 +84,20 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	// 389-338 51
 	public void onRepaint(Graphics g1) {
+		millis = System.currentTimeMillis() - startTime;
+
+		hours = millis / (1000 * 60 * 60);
+
+		millis -= hours * (1000 * 60 * 60);
+
+		minutes = millis / (1000 * 60);
+
+		millis -= minutes * (1000 * 60);
+
+		seconds = millis / 1000;
 		Graphics2D g = (Graphics2D) g1;
+		
+
 		g.setColor(color1);
 		g.fillRect(341, 194 + 51, 176, 143);
 		g.setStroke(stroke1);
@@ -85,11 +110,11 @@ public class Planking extends ActiveScript implements PaintListener {
 		g.drawString(m, 444, 244 + 51);
 		int bob = (int) ptime.getElapsed();
 		int bob2 = bob / 1000;
-		String s = String.valueOf(bob2);
-		g.drawString(s, 400, 218 + 51);
+		g.drawString(hours + ":" + minutes + ":" + seconds, 400, 218 + 51);
+
 		g.drawString("Planks Per Hour:", 361, 273 + 51);
 		if (numOfPlanks >= 20) {
-			bob3 = numOfPlanks / bob * 1000 / 60 / 60;
+			bob3 = (int) (numOfPlanks * 3600000D / bob);
 		}
 		String u = String.valueOf(bob3);
 		g.drawString(u, 444 + 15, 273 + 51);
@@ -288,7 +313,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	@Override
 	protected void setup() {
-
+		startTime = System.currentTimeMillis();
 		final Log log = new Log();
 		final Strategy logAction = new Strategy(log, log);
 
