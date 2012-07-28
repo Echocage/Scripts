@@ -1,5 +1,6 @@
 package Planker;
 
+import java.awt.*;
 import java.util.Random;
 
 import org.powerbot.concurrent.Task;
@@ -26,6 +27,7 @@ import org.powerbot.game.api.wrappers.node.SceneObject;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
 public class Planking extends ActiveScript {
+	Timer ptime = new Timer(0);
 	AntibanTask anti = new AntibanTask();
 	Random rand = new Random();
 	// What you can change!! ***************************************
@@ -57,6 +59,31 @@ public class Planking extends ActiveScript {
 		return null;
 	}
 
+	// START: Code generated using Enfilade's Easel
+	private final Color color1 = new Color(0, 0, 0);
+	private final Color color2 = new Color(255, 255, 255);
+
+	private final BasicStroke stroke1 = new BasicStroke(1);
+
+	private final Font font1 = new Font("Arial", 0, 12);
+
+	public void onRepaint(Graphics g1) {
+		Graphics2D g = (Graphics2D) g1;
+		g.setColor(color1);
+		g.fillRect(341, 194, 176, 143);
+		g.setStroke(stroke1);
+		g.drawRect(341, 194, 176, 143);
+		g.setFont(font1);
+		g.setColor(color2);
+		g.drawString("Time:", 360, 218);
+		g.drawString("Planks made:", 361, 244);
+		g.drawString("#of planks made", 444, 244);
+		g.drawString(ptime.toString(), 400, 218);
+		g.drawString("Profit:", 361, 273);
+		g.drawString("Profit per hour:", 361, 301);
+	}
+
+	// END: Code generated using Enfilade's Easel
 	Tile[] toPlanker = { new Tile(3253, 3422, 0), new Tile(3253, 3423, 0),
 			new Tile(3253, 3424, 0), new Tile(3253, 3425, 0),
 			new Tile(3254, 3426, 0), new Tile(3255, 3426, 0),
@@ -263,6 +290,7 @@ public class Planking extends ActiveScript {
 		final Problem problem = new Problem();
 		final Strategy problemAction = new Strategy(problem, problem);
 		provide(problemAction);
+
 	}
 
 	private class Log implements Task, Condition {
