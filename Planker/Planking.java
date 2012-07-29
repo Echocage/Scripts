@@ -109,13 +109,13 @@ public class Planking extends ActiveScript implements PaintListener {
 
 		return null;
 	}    //START: Code generated using Enfilade's Easel
-    private final Color color1 = new Color(139, 67, 227, 76);
+    private final Color color1 = new Color(139, 67, 227,100);
     private final Color color2 = new Color(0, 0, 0);
     private final Color color3 = new Color(222, 255, 0, 229);
 
     private final BasicStroke stroke1 = new BasicStroke(1);
 
-    private final Font font1 = new Font("Arial", 0, 14);
+    private final Font font1 = new Font("Trajan Pro", 0, 14);
 
     public void onRepaint(Graphics g1) {
     	millis = System.currentTimeMillis() - startTime;
