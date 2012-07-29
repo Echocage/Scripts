@@ -52,11 +52,17 @@ public class Planking extends ActiveScript implements PaintListener {
 	Random rand = new Random();
 	int numOfPlanks = 0;
 	// What you can change!! ***************************************
-	int plankSwitch = 2;// 1 = logs 2= oak logs 3=teak logs 4=mahogany
+	
+	int plankSwitch = 3;// 1 = logs 2= oak logs 3=teak logs 4=mahogany logs
+	
+	// End of what you can change **********************************
+	
+	//These will change automatically
 	int plankID = 8778;
 	int logID = 1521;
 	int restValue = 40;
-	// End of what you can change **********************************
+	int plankPrice = 250;
+
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
@@ -112,7 +118,6 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	private final Font font1 = new Font("Arial", 0, 12);
 
-	// 389-338 51
 	public void onRepaint(Graphics g1) {
 		millis = System.currentTimeMillis() - startTime;
 
@@ -357,7 +362,29 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	@Override
 	protected void setup() {
-		happy = greg(plankID) - greg(logID) - 250;
+		switch (plankSwitch) {
+		case 1:
+			logID = 1511;
+			plankID = 960;
+			plankPrice = 100;
+			break;
+		case 2:
+			logID = 1521;
+			plankID = 8778;
+			plankPrice = 250;
+			break;
+		case 3:
+			logID = 6333;
+			plankID = 8780;
+			plankPrice = 500;
+			break;
+		case 4:
+			logID = 6332;
+			plankID = 8782;
+			plankPrice = 1500;
+			break;
+		}
+		happy = greg(plankID) - greg(logID) - plankPrice;
 		startTime = System.currentTimeMillis();
 		final Log log = new Log();
 		final Strategy logAction = new Strategy(log, log);
