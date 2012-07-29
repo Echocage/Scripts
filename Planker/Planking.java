@@ -47,7 +47,8 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	public long last = 0;
 	Timer ptime = new Timer(0);
-	AntibanTask anti = new AntibanTask();
+	GUI gui = new GUI();
+
 	Random rand = new Random();
 	int numOfPlanks = 0;
 	// What you can change!! ***************************************
@@ -369,10 +370,12 @@ public class Planking extends ActiveScript implements PaintListener {
 		final Banker banker = new Banker();
 		final Strategy bankAction = new Strategy(banker, banker);
 		provide(bankAction);
+
 		provide(new AntibanTask());
 		final Problem problem = new Problem();
 		final Strategy problemAction = new Strategy(problem, problem);
 		provide(problemAction);
+		gui.getClass().getPackage();
 
 	}
 
