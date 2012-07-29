@@ -47,7 +47,6 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	public long last = 0;
 	Timer ptime = new Timer(0);
-	
 
 	Random rand = new Random();
 	int numOfPlanks = 0;
@@ -109,9 +108,58 @@ public class Planking extends ActiveScript implements PaintListener {
 		}
 
 		return null;
-	}
+	}    //START: Code generated using Enfilade's Easel
+    private final Color color1 = new Color(139, 67, 227, 76);
+    private final Color color2 = new Color(0, 0, 0);
+    private final Color color3 = new Color(222, 255, 0, 229);
 
-	// START: Code generated using Enfilade's Easel
+    private final BasicStroke stroke1 = new BasicStroke(1);
+
+    private final Font font1 = new Font("Arial", 0, 14);
+
+    public void onRepaint(Graphics g1) {
+    	millis = System.currentTimeMillis() - startTime;
+		int bob = (int) ptime.getElapsed();
+		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
+		String profit = String.valueOf(bob7);
+		if (numOfPlanks >= 20) {
+			bob3 = (int) (numOfPlanks * 3600000D / bob);
+		}
+		String u = String.valueOf(bob3);
+		String m = String.valueOf(numOfPlanks);
+		int bob8 = (int) (happy * numOfPlanks);
+		String f = String.valueOf(bob8);
+
+		hours = millis / (1000 * 60 * 60);
+
+		millis -= hours * (1000 * 60 * 60);
+
+		minutes = millis / (1000 * 60);
+
+		millis -= minutes * (1000 * 60);
+
+		seconds = millis / 1000;
+        Graphics2D g = (Graphics2D)g1;
+        g.setColor(color1);
+        g.fillRect(547, 255, 190, 260);
+        g.setColor(color2);
+        g.setStroke(stroke1);
+        g.drawRect(547, 255, 190, 260);
+        g.setFont(font1);
+        g.setColor(color3);
+        g.drawString("EchoPlanker", 605, 275);
+        g.drawString("Planks Made: "+m, 561, 360);
+        g.setColor(color2);
+        g.drawLine(605, 277, 684, 277);
+        g.setColor(color3);
+        g.drawString("Planks Per Hour: "+u, 562, 414);
+        g.drawString("Profit:"+f, 562, 466);
+        g.drawString("Profit Per Hour:"+bob7, 560, 511);
+        g.drawString("Time Running:"+hours + ":" + minutes + ":" + seconds, 560, 310);
+    }
+    //END: Code generated using Enfilade's Easel
+
+	/*// START: Code generated using Enfilade's Easel
 	private final Color color1 = new Color(0, 0, 0);
 	private final Color color2 = new Color(255, 255, 255);
 
@@ -158,7 +206,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	}
 
-	// END: Code generated using Enfilade's Easel
+	// END: Code generated using Enfilade's Easel*/
 	Tile[] toPlanker = { new Tile(3253, 3422, 0), new Tile(3253, 3423, 0),
 			new Tile(3253, 3424, 0), new Tile(3253, 3425, 0),
 			new Tile(3254, 3426, 0), new Tile(3255, 3426, 0),
@@ -403,7 +451,6 @@ public class Planking extends ActiveScript implements PaintListener {
 		final Problem problem = new Problem();
 		final Strategy problemAction = new Strategy(problem, problem);
 		provide(problemAction);
-		
 
 	}
 
