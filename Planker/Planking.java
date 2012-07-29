@@ -47,7 +47,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	public long last = 0;
 	Timer ptime = new Timer(0);
-	GUI gui = new GUI();
+	
 
 	Random rand = new Random();
 	int numOfPlanks = 0;
@@ -403,7 +403,7 @@ public class Planking extends ActiveScript implements PaintListener {
 		final Problem problem = new Problem();
 		final Strategy problemAction = new Strategy(problem, problem);
 		provide(problemAction);
-		gui.getClass().getPackage();
+		
 
 	}
 
