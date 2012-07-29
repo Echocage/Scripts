@@ -52,15 +52,16 @@ public class Planking extends ActiveScript implements PaintListener {
 	Random rand = new Random();
 	int numOfPlanks = 0;
 	// What you can change!! ***************************************
-	
+
 	int plankSwitch = 3;// 1 = logs 2= oak logs 3=teak logs 4=mahogany logs
-	
+	int restValue = 40;// When should I rest?
+
 	// End of what you can change **********************************
-	
-	//These will change automatically
+
+	// These will change automatically
 	int plankID = 8778;
 	int logID = 1521;
-	int restValue = 40;
+
 	int plankPrice = 250;
 
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
