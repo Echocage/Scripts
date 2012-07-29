@@ -67,7 +67,7 @@ public class Planking extends ActiveScript implements PaintListener {
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
-	// 517,387
+
 	int musicianID = 8700;
 
 	Tile varockCenter = new Tile(3213, 3432, 0);
