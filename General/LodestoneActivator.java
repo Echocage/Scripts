@@ -1,3 +1,5 @@
+package General;
+
 import java.awt.*;
 import java.util.LinkedList;
 import org.powerbot.concurrent.Task;

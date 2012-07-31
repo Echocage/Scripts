@@ -1,4 +1,6 @@
-package Planker;
+package Shared.Planking;
+
+
 
 import org.powerbot.concurrent.Task;
 import org.powerbot.concurrent.strategy.Strategy;

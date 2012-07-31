@@ -1,3 +1,5 @@
+package Shared.Dicing;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -14,14 +16,12 @@ import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.bot.event.MessageEvent;
 import org.powerbot.game.bot.event.listener.MessageListener;
 
-import Planker.AntibanTask;
 
 @Manifest(authors = { "Preston3050" }, name = "Dicing", description = "Preston's Dicing Script", version = 1.0)
 public class Dicing extends ActiveScript implements MessageListener {
 	Random rand = new Random();
 	Random rand2 = new Random();
 	String play = "";
-	AntibanTask antiBan = new AntibanTask();
 
 	public boolean getPlayerName(String josh) {
 		try {
@@ -54,12 +54,7 @@ public class Dicing extends ActiveScript implements MessageListener {
 	public class Mine implements Task, Condition {
 		@Override
 		public void run() {
-			if(rand.nextInt(1000)==10){
-				antiBan.run();
-				
-				
-				
-			}
+
 			if (play != "") {
 				int josh = 1 + rand.nextInt(100);
 				log.info(josh + "");

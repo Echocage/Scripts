@@ -1,4 +1,4 @@
-package Planker;
+package Shared.Planking;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -33,7 +33,7 @@ import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.bot.event.listener.PaintListener;
 
 @Manifest(authors = { "Echocage" }, name = "EchoPlanker", description = "Start at varock east bank", version = 1.0)
-public class Planking extends ActiveScript implements PaintListener {
+public class Planker extends ActiveScript implements PaintListener {
 	int bob3 = 0;
 	int happy = 0;
 

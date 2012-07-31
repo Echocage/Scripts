@@ -1,3 +1,5 @@
+package General;
+
 import java.util.Random;
 
 import org.powerbot.concurrent.Task;
@@ -19,7 +21,7 @@ import org.powerbot.game.api.wrappers.widget.Widget;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 import org.powerbot.game.client.RSItem;
 
-import Planker.AntibanTask;
+
 
 @Manifest(authors = { "Preston3050" }, name = "Fisher", description = "This is my first and only testing script", version = 1.0)
 public class Fisher extends ActiveScript {

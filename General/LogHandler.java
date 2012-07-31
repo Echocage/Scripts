@@ -1,3 +1,5 @@
+package General;
+
 /*
  * Copyright (c) 2012. Redex Scripting - Unauthorized use prohibited by author.
  */
