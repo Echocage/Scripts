@@ -68,13 +68,29 @@ public class BalloonPopper extends ActiveScript {
 		SceneObject lever = SceneEntities.getNearest(26194);
 		lever.interact("Pull");
 		Time.sleep(1000);
-		while (Players.getLocal().isMoving()
-				|| Players.getLocal().getAnimation() != -1) {
+		while (Players.getLocal().isMoving()) {
 			Time.sleep(1000);
 		}
 		Time.sleep(1000);
 		Widgets.get(1188, 3).click(true);
 
+	}
+
+	private boolean areThereItems() {
+		GroundItem ClosestItem = GroundItems
+				.getNearest(new Filter<GroundItem>() {
+					@Override
+					public boolean accept(GroundItem o) {
+						if (o != null) {
+							return true;
+						}
+						return false;
+					}
+				});
+		if (ClosestItem != null) {
+			return true;
+		}
+		return false;
 	}
 
 	private void pickItem() {
@@ -92,8 +108,7 @@ public class BalloonPopper extends ActiveScript {
 		if (ClosestItem.isOnScreen()) {
 			ClosestItem.click(true);
 			Time.sleep(1000);
-			while (Players.getLocal().getAnimation() != -1
-					&& Players.getLocal().isMoving()) {
+			while (Players.getLocal().isMoving()) {
 				Time.sleep(1000);
 
 			}
@@ -115,8 +130,7 @@ public class BalloonPopper extends ActiveScript {
 				if (balloon.isOnScreen()) {
 					balloon.interact("Burst");
 					Time.sleep(1000);
-					while (Players.getLocal().getAnimation() != -1
-							|| Players.getLocal().isMoving()) {
+					while (Players.getLocal().isMoving()) {
 						Time.sleep(100);
 					}
 
@@ -133,14 +147,15 @@ public class BalloonPopper extends ActiveScript {
 	}
 
 	private void bankItems() {
-		SceneObject bankMe = SceneEntities.getNearest(Bankers);
+
 		if (Bank.isOpen()) {
 			while (Inventory.isFull()) {
 				Bank.depositInventory();
 				Time.sleep(3000);
 			}
+		} else {
+			Bank.open();
 		}
-		bankMe.click(true);
 
 	}
 
@@ -196,6 +211,7 @@ public class BalloonPopper extends ActiveScript {
 		@Override
 		public void run() {
 			log.info("Begin Mine");
+			burstBalloon();
 			if (Bank.isOpen()) {
 				Bank.close();
 			}
@@ -207,10 +223,9 @@ public class BalloonPopper extends ActiveScript {
 					&& shouldIRepull == true) {
 				rePull();
 			}
-			burstBalloon();
-
-			pickItem();
-
+			if (areThereItems()) {
+				pickItem();
+			}
 		}
 
 		@Override

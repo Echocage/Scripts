@@ -13,6 +13,7 @@ import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.concurrent.strategy.Strategy;
 import org.powerbot.game.api.ActiveScript;
 import org.powerbot.game.api.Manifest;
+import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.NPCs;
@@ -35,6 +36,7 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 public class Planking extends ActiveScript implements PaintListener {
 	int bob3 = 0;
 	int happy = 0;
+
 	public long startTime = 0;
 
 	public long millis = 0;
@@ -55,6 +57,12 @@ public class Planking extends ActiveScript implements PaintListener {
 	int plankSwitch = 3;// 1 = logs 2= oak logs 3=teak logs 4=mahogany logs
 	int restValue = 40;// When should I rest?
 
+	// How often should the antiban run?(default is )
+
+	// The first number is the amount of seconds, the thousand makes it into
+	// seconds from miliseconds
+	int minTime = (1 * 1000);
+	int maxTime = (10 * 1000);
 	// End of what you can change **********************************
 
 	// These will change automatically
@@ -66,7 +74,7 @@ public class Planking extends ActiveScript implements PaintListener {
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
-
+	Timer antiBanTimer;
 	int musicianID = 8700;
 
 	Tile varockCenter = new Tile(3213, 3432, 0);
@@ -96,6 +104,7 @@ public class Planking extends ActiveScript implements PaintListener {
 	}
 
 	public NPC getNpc(String a) {
+
 		if (a.contains("banker")) {
 
 			if (NPCs.getNearest(Bank.BANK_BOOTH_IDS) != null) {
@@ -108,20 +117,20 @@ public class Planking extends ActiveScript implements PaintListener {
 		}
 
 		return null;
-	}    //START: Code generated using Enfilade's Easel
-    private final Color color1 = new Color(139, 67, 227,100);
-    private final Color color2 = new Color(0, 0, 0);
-    private final Color color3 = new Color(222, 255, 0, 229);
+	} // START: Code generated using Enfilade's Easel
 
-    private final BasicStroke stroke1 = new BasicStroke(1);
+	private final Color color1 = new Color(139, 67, 227, 100);
+	private final Color color2 = new Color(0, 0, 0);
+	private final Color color3 = new Color(222, 255, 0, 229);
 
-    private final Font font1 = new Font("Trajan Pro", 0, 14);
+	private final BasicStroke stroke1 = new BasicStroke(1);
 
-    public void onRepaint(Graphics g1) {
-    	millis = System.currentTimeMillis() - startTime;
+	private final Font font1 = new Font("Trajan Pro", 0, 14);
+
+	public void onRepaint(Graphics g1) {
+		millis = System.currentTimeMillis() - startTime;
 		int bob = (int) ptime.getElapsed();
 		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
-		String profit = String.valueOf(bob7);
 		if (numOfPlanks >= 20) {
 			bob3 = (int) (numOfPlanks * 3600000D / bob);
 		}
@@ -139,74 +148,26 @@ public class Planking extends ActiveScript implements PaintListener {
 		millis -= minutes * (1000 * 60);
 
 		seconds = millis / 1000;
-        Graphics2D g = (Graphics2D)g1;
-        g.setColor(color1);
-        g.fillRect(547, 255, 190, 260);
-        g.setColor(color2);
-        g.setStroke(stroke1);
-        g.drawRect(547, 255, 190, 260);
-        g.setFont(font1);
-        g.setColor(color3);
-        g.drawString("EchoPlanker", 605, 275);
-        g.drawString("Planks Made: "+m, 561, 360);
-        g.setColor(color2);
-        g.drawLine(605, 277, 684, 277);
-        g.setColor(color3);
-        g.drawString("Planks Per Hour: "+u, 562, 414);
-        g.drawString("Profit:"+f, 562, 466);
-        g.drawString("Profit Per Hour:"+bob7, 560, 511);
-        g.drawString("Time Running:"+hours + ":" + minutes + ":" + seconds, 560, 310);
-    }
-    //END: Code generated using Enfilade's Easel
-
-	/*// START: Code generated using Enfilade's Easel
-	private final Color color1 = new Color(0, 0, 0);
-	private final Color color2 = new Color(255, 255, 255);
-
-	private final BasicStroke stroke1 = new BasicStroke(1);
-
-	private final Font font1 = new Font("Arial", 0, 12);
-
-	public void onRepaint(Graphics g1) {
-		millis = System.currentTimeMillis() - startTime;
-
-		hours = millis / (1000 * 60 * 60);
-
-		millis -= hours * (1000 * 60 * 60);
-
-		minutes = millis / (1000 * 60);
-
-		millis -= minutes * (1000 * 60);
-
-		seconds = millis / 1000;
 		Graphics2D g = (Graphics2D) g1;
-
 		g.setColor(color1);
-		g.fillRect(341, 194 + 51, 176, 143);
-		g.setStroke(stroke1);
-		g.drawRect(341, 194 + 51, 176, 143);
-		g.setFont(font1);
+		g.fillRect(547, 255, 190, 260);
 		g.setColor(color2);
-		g.drawString("Time:", 360, 218 + 51);
-		g.drawString("Planks made:", 361, 244 + 51);
-		String m = String.valueOf(numOfPlanks);
-		g.drawString(m, 444, 244 + 51);
-		int bob = (int) ptime.getElapsed();
-
-		g.drawString(hours + ":" + minutes + ":" + seconds, 400, 218 + 51);
-		g.drawString("Planks Per Hour:", 361, 273 + 51);
-		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
-		String profit = String.valueOf(bob7);
-		g.drawString("Profit per hour: " + profit, 361, 300 + 51);
-		if (numOfPlanks >= 20) {
-			bob3 = (int) (numOfPlanks * 3600000D / bob);
-		}
-		String u = String.valueOf(bob3);
-		g.drawString(u, 444 + 15, 273 + 51);
-
+		g.setStroke(stroke1);
+		g.drawRect(547, 255, 190, 260);
+		g.setFont(font1);
+		g.setColor(color3);
+		g.drawString("EchoPlanker", 605, 275);
+		g.drawString("Planks Made: " + m, 561, 360);
+		g.setColor(color2);
+		g.drawLine(605, 277, 684, 277);
+		g.setColor(color3);
+		g.drawString("Planks Per Hour: " + u, 562, 414);
+		g.drawString("Profit:" + f, 562, 466);
+		g.drawString("Profit Per Hour:" + bob7, 560, 511);
+		g.drawString("Time Running:" + hours + ":" + minutes + ":" + seconds,
+				560, 310);
 	}
 
-	// END: Code generated using Enfilade's Easel*/
 	Tile[] toPlanker = { new Tile(3253, 3422, 0), new Tile(3253, 3423, 0),
 			new Tile(3253, 3424, 0), new Tile(3253, 3425, 0),
 			new Tile(3254, 3426, 0), new Tile(3255, 3426, 0),
@@ -304,11 +265,13 @@ public class Planking extends ActiveScript implements PaintListener {
 				}
 			}
 			int jacob = 65 + rand.nextInt(100 - 65);
+			AntibanTask ab = new AntibanTask();
 			while (Players.getLocal().getAnimation() == 11786 && x() <= jacob
 					|| Players.getLocal().getAnimation() == 5713
 					&& x() <= jacob) {
 
 				Time.sleep(1000);
+				ab.run();
 
 			}
 
@@ -411,6 +374,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 	@Override
 	protected void setup() {
+		antiBanTimer = new Timer(maxTime + rand.nextInt(minTime));
 		switch (plankSwitch) {
 		case 1:
 			logID = 1511;
@@ -433,6 +397,7 @@ public class Planking extends ActiveScript implements PaintListener {
 			plankPrice = 1500;
 			break;
 		}
+
 		happy = greg(plankID) - greg(logID) - plankPrice;
 		startTime = System.currentTimeMillis();
 		final Log log = new Log();
@@ -446,8 +411,10 @@ public class Planking extends ActiveScript implements PaintListener {
 		final Banker banker = new Banker();
 		final Strategy bankAction = new Strategy(banker, banker);
 		provide(bankAction);
+		final antiBan anti = new antiBan();
+		final Strategy abAction = new Strategy(anti, anti);
+		provide(abAction);
 
-		provide(new AntibanTask());
 		final Problem problem = new Problem();
 		final Strategy problemAction = new Strategy(problem, problem);
 		provide(problemAction);
@@ -510,7 +477,9 @@ public class Planking extends ActiveScript implements PaintListener {
 		@Override
 		public boolean validate() {
 
-			return inventoryCheck() == 1 && !aBank.contains(getLocation());
+			return inventoryCheck() == 1 && !aBank.contains(getLocation())
+					&& Game.getClientState() != 12;
+
 		}
 	}
 
@@ -543,7 +512,8 @@ public class Planking extends ActiveScript implements PaintListener {
 		public boolean validate() {
 
 			return inventoryCheck() == 2 && !aBank.contains(getLocation())
-					|| isEmpty() && !aBank.contains(getLocation());
+					|| isEmpty() && !aBank.contains(getLocation())
+					&& Game.getClientState() != 12;
 		}
 
 	}
@@ -583,6 +553,7 @@ public class Planking extends ActiveScript implements PaintListener {
 
 						Bank.close();
 					} else {
+						log.info("Ran out of planks!");
 						Time.sleep(1000000);
 
 					}
@@ -620,6 +591,25 @@ public class Planking extends ActiveScript implements PaintListener {
 		public boolean validate() {
 
 			return inventoryCheck() == 4;
+		}
+
+	}
+
+	private class antiBan implements Task, Condition {
+
+		@Override
+		public void run() {
+			AntibanTask ab = new AntibanTask();
+			if (!antiBanTimer.isRunning()) {
+				ab.run();
+				antiBanTimer.setEndIn(minTime + rand.nextInt(maxTime));
+			}
+		}
+
+		@Override
+		public boolean validate() {
+
+			return true;
 		}
 
 	}

@@ -21,6 +21,8 @@ import java.util.Random;
 import org.powerbot.game.api.wrappers.interactive.Player;
 import org.powerbot.game.bot.event.listener.MessageListener;
 
+import Planker.AntibanTask;
+
 @Manifest(authors = { "Preston3050" }, name = "TradeBot", description = "This is my first and only testing script", version = 1.0)
 public class Tradebot extends ActiveScript implements MessageListener {
 	ArrayList<String> al = new ArrayList<String>();
