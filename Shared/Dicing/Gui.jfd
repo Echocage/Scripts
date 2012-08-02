@@ -1,0 +1,58 @@
+JFDML JFormDesigner: "5.1.0.0.51" Java: "1.7.0_05" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jgoodies.forms.layout.FormLayout ) {
+			"$columnSpecs": "default, labelcompgap, default, labelcompgap, default, labelcompgap, default, labelcompgap, default"
+			"$rowSpecs": "default, linegap, default, linegap, default, linegap, default, linegap, default, linegap, default"
+		} ) {
+			name: "frame1"
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "Normal"
+				"text": "Logs"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 1
+				"gridY": 1
+			} )
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "Oak"
+				"text": "Oak"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 3
+			} )
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "Teak"
+				"text": "Teak"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 5
+			} )
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "Mahogany"
+				"text": "Mahogany"
+				"$buttonGroup": new FormReference( "buttonGroup1" )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridY": 7
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Start"
+				"text": "Start"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "StartActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jgoodies.forms.layout.CellConstraints ) {
+				"gridX": 7
+				"gridY": 11
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 25, 215 )
+			"size": new java.awt.Dimension( 200, 200 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroup1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 463 )
+		} )
+	}
+}
