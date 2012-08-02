@@ -72,7 +72,7 @@ public class Planker extends ActiveScript implements PaintListener {
 	static int logID = 1521;
 
 	static int plankPrice = 250;
-	
+
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
@@ -82,6 +82,7 @@ public class Planker extends ActiveScript implements PaintListener {
 	Tile varockCenter = new Tile(3213, 3432, 0);
 
 	public int getPrice(int id) throws IOException {
+
 		String price;
 		URL url = new URL(
 				"http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj="
@@ -491,6 +492,13 @@ public class Planker extends ActiveScript implements PaintListener {
 			NPC musician = NPCs.getNearest(musicianID);
 			if (musician != null) {
 				if (musician.getLocation().isOnMap() && x() <= restValue) {
+					if (!musician.isOnScreen()) {
+						musician.getLocation().clickOnMap();
+						while (Players.getLocal().isMoving()
+								&& !musician.isOnScreen()) {
+							Time.sleep(100);
+						}
+					}
 					music();
 
 				} else {
@@ -554,6 +562,13 @@ public class Planker extends ActiveScript implements PaintListener {
 						Bank.close();
 					} else {
 						log.info("Ran out of planks!");
+						ScreenCapture u = new ScreenCapture();
+						try {
+							u.ScreenCapture2();
+						} catch (IOException e) {
+
+							e.printStackTrace();
+						}
 						Time.sleep(1000000);
 
 					}
