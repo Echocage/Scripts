@@ -16,7 +16,6 @@ import org.powerbot.game.api.methods.widget.Camera;
 import org.powerbot.game.bot.event.MessageEvent;
 import org.powerbot.game.bot.event.listener.MessageListener;
 
-
 @Manifest(authors = { "Preston3050" }, name = "Dicing", description = "Preston's Dicing Script", version = 1.0)
 public class Dicing extends ActiveScript implements MessageListener {
 	Random rand = new Random();

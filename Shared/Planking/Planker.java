@@ -8,6 +8,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import org.powerbot.concurrent.Task;
 import org.powerbot.concurrent.strategy.Condition;
 import org.powerbot.concurrent.strategy.Strategy;
@@ -16,6 +19,7 @@ import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
+import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.interactive.NPCs;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
@@ -36,8 +40,9 @@ import org.powerbot.game.bot.event.listener.PaintListener;
 public class Planker extends ActiveScript implements PaintListener {
 	int bob3 = 0;
 	int happy = 0;
-
 	public long startTime = 0;
+
+	boolean guiDone = false;
 
 	public long millis = 0;
 
@@ -54,23 +59,20 @@ public class Planker extends ActiveScript implements PaintListener {
 	int numOfPlanks = 0;
 	// What you can change!! ***************************************
 
-	int plankSwitch = 3;// 1 = logs 2= oak logs 3=teak logs 4=mahogany logs
-	int restValue = 40;// When should I rest?
+	static int plankSwitch = 0;
 
-	// How often should the antiban run?(default is )
+	int restValue = 40;
 
-	// The first number is the amount of seconds, the thousand makes it into
-	// seconds from miliseconds
 	int minTime = (1 * 1000);
 	int maxTime = (10 * 1000);
 	// End of what you can change **********************************
 
 	// These will change automatically
-	int plankID = 8778;
-	int logID = 1521;
+	static int plankID = 8778;
+	static int logID = 1521;
 
-	int plankPrice = 250;
-
+	static int plankPrice = 250;
+	
 	Area aBank = new Area(new Tile(3250, 3424, 0), new Tile(3257, 3419, 0));
 	Tile cBank = new Tile(3253, 3420, 0);
 	String status = "";
@@ -128,6 +130,7 @@ public class Planker extends ActiveScript implements PaintListener {
 	private final Font font1 = new Font("Trajan Pro", 0, 14);
 
 	public void onRepaint(Graphics g1) {
+
 		millis = System.currentTimeMillis() - startTime;
 		int bob = (int) ptime.getElapsed();
 		int bob7 = (int) (happy * numOfPlanks * 3600000D / bob);
@@ -149,6 +152,11 @@ public class Planker extends ActiveScript implements PaintListener {
 
 		seconds = millis / 1000;
 		Graphics2D g = (Graphics2D) g1;
+		g.setColor(Color.YELLOW);
+		g.drawLine(Mouse.getX() - 5, Mouse.getY() - 5, Mouse.getX() + 5,
+				Mouse.getY() + 5);
+		g.drawLine(Mouse.getX() - 5, Mouse.getY() + 5, Mouse.getX() + 5,
+				Mouse.getY() - 5);
 		g.setColor(color1);
 		g.fillRect(547, 255, 190, 260);
 		g.setColor(color2);
@@ -166,6 +174,7 @@ public class Planker extends ActiveScript implements PaintListener {
 		g.drawString("Profit Per Hour:" + bob7, 560, 511);
 		g.drawString("Time Running:" + hours + ":" + minutes + ":" + seconds,
 				560, 310);
+
 	}
 
 	Tile[] toPlanker = { new Tile(3253, 3422, 0), new Tile(3253, 3423, 0),
@@ -251,7 +260,7 @@ public class Planker extends ActiveScript implements PaintListener {
 			if (Players.getLocal().getAnimation() != 11786
 					&& Players.getLocal().getAnimation() != 5713) {
 
-				while (Players.getLocal().isMoving()) {
+				while (Players.getLocal().isMoving() && !musician.isOnScreen()) {
 					Time.sleep(100);
 				}
 				if (musician.isOnScreen()) {
@@ -280,7 +289,10 @@ public class Planker extends ActiveScript implements PaintListener {
 	}
 
 	public int inventoryCheck() {
+		while (plankSwitch == 0) {
+			Time.sleep(100);
 
+		}
 		Item[] bob = Inventory.getItems();
 		Time.sleep(100 + rand.nextInt(300));
 
@@ -374,32 +386,20 @@ public class Planker extends ActiveScript implements PaintListener {
 
 	@Override
 	protected void setup() {
+		Timer kevin = new Timer(10000);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				iTPlankerGUI itpg = new iTPlankerGUI();
+				itpg.setVisible(true);
+			}
+		});
+
 		antiBanTimer = new Timer(maxTime + rand.nextInt(minTime));
-		switch (plankSwitch) {
-		case 1:
-			logID = 1511;
-			plankID = 960;
-			plankPrice = 100;
-			break;
-		case 2:
-			logID = 1521;
-			plankID = 8778;
-			plankPrice = 250;
-			break;
-		case 3:
-			logID = 6333;
-			plankID = 8780;
-			plankPrice = 500;
-			break;
-		case 4:
-			logID = 6332;
-			plankID = 8782;
-			plankPrice = 1500;
-			break;
-		}
 
 		happy = greg(plankID) - greg(logID) - plankPrice;
 		startTime = System.currentTimeMillis();
+
 		final Log log = new Log();
 		final Strategy logAction = new Strategy(log, log);
 
@@ -599,6 +599,7 @@ public class Planker extends ActiveScript implements PaintListener {
 
 		@Override
 		public void run() {
+
 			AntibanTask ab = new AntibanTask();
 			if (!antiBanTimer.isRunning()) {
 				ab.run();
